@@ -25,6 +25,21 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
     Timer gameLoop;
 
 
+    // Images of the game
+    Image dinosaurImg;
+    Image dinosaurDeadImg;
+    Image dinosaurJumpImg;
+    Image dinosaurDuckImg;
+
+
+    // Dinosaur
+    int dinosaurWidth;
+    int dinosaurHeight;
+    int dinosaurStartX;
+    int dinosaurStartY;
+    GameElements dinosaur;
+
+
     /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      * Constructor  ChromeDinoGame()
      * Description  ......
@@ -51,6 +66,40 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
         gameLoop = new Timer(1000/60, this);
         gameLoop.start();
 
+
+        // Initializing game images
+        dinosaurImg = new ImageIcon(getClass().getResource("img/dino.gif")).getImage();
+        dinosaurDeadImg = new ImageIcon(getClass().getResource("img/dino_dead.png")).getImage();
+        dinosaurJumpImg = new ImageIcon(getClass().getResource("img/dino_jump.png")).getImage();
+        dinosaurDuckImg = new ImageIcon(getClass().getResource("img/dino_duck.gif")).getImage();
+
+        // Initializing Dinosaur object
+        dinosaurWidth = 88;
+        dinosaurHeight = 94;
+        dinosaurStartX = 50;
+        dinosaurStartY = boardHeight - dinosaurHeight;
+        dinosaur = new Dinosaur(dinosaurStartX, dinosaurStartY, dinosaurWidth, dinosaurHeight, dinosaurImg);
+    }
+
+
+    /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     * Method       paintComponent(Graphics g)
+     * Description  Calls draw() method.
+     * @author      Batuhan Ozel
+     *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        draw(g);
+    }
+
+
+    /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     * Method       draw(ActionEvent e)
+     * Description  Manages and draws visual elements of the game.
+     * @author      Batuhan Ozel
+     *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+    public void draw(Graphics g){
+        dinosaur.draw(g);
     }
 
 
@@ -61,7 +110,7 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
      *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     @Override
     public void actionPerformed(ActionEvent e) {
-        //System.out.println("LOOP TEST!");
+        repaint();
     }
 
 

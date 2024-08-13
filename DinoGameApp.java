@@ -30,11 +30,14 @@ public class DinoGameApp {
         // Set closing operation
         gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-
+        // Create a ChromeDinoGame object
         ChromeDinoGame dinoGame = new ChromeDinoGame(boardWidth, boardHeight);
+        // Add dinoGame object to the game window
         gameWindow.add(dinoGame);
-//        gameWindow.pack();
-//        dinoGame.requestFocus();
+        // It fixes the dimension problems, dimensions will start after the title bar
+        gameWindow.pack();
+        // Requests that this Component gets the input focus.
+        dinoGame.requestFocus();
 
         // Set game window visible
         gameWindow.setVisible(true);

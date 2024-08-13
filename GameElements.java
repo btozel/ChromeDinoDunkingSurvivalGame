@@ -1,13 +1,30 @@
 import java.awt.*;
 
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Class            GameElements
+ * File             GameElements.java
+ * Description      This class stores the necessary properties for drawing the elements that will be
+ *                  visually present in the game. The X and Y coordinates of this element represent the upper
+ *                  left corner of the imaginary rectangle. The other features of the element refer to this coordinate.
+ * @author          Batuhan Ozel
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 abstract class GameElements {
+    // X coordinate of the element
     int xPosition;
+    // Y coordinate of the element
     int yPosition;
+    // Width of the element
     int width;
+    // Height of the element
     int height;
+    // Image of the element
     Image img;
 
-
+    /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     * Constructor      GameElements()
+     * Description      Sets X and Y coordinates, width, height and image of the element with the given parameters.
+     * @author          Batuhan Ozel
+     * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     GameElements(int x, int y, int width, int height, Image img){
         this.xPosition = x;
         this.yPosition = y;
@@ -16,13 +33,17 @@ abstract class GameElements {
         this.img = img;
     }
 
-
+    /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     * Method       draw(Graphics g)
+     * Description  Manages drawing method for all GameElements objects.
+     * @author      Batuhan Ozel
+     *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     public void draw(Graphics g){
         g.drawImage(img, xPosition, yPosition, width, height, null);
     }
 
-    public abstract void move();
 
+    public abstract void move();
 
 
     public int getxPosition() {
