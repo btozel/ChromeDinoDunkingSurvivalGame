@@ -43,7 +43,7 @@ abstract class GameElements {
     }
 
 
-    public abstract void move();
+//    public abstract void move();
 
 
     public int getxPosition() {
@@ -66,11 +66,11 @@ abstract class GameElements {
         return img;
     }
 
-    public void setxPosition(int xPosition) {
+    public void setXPosition(int xPosition) {
         this.xPosition = xPosition;
     }
 
-    public void setyPosition(int yPosition) {
+    public void setYPosition(int yPosition) {
         this.yPosition = yPosition;
     }
 
