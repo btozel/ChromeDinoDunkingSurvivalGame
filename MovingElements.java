@@ -5,7 +5,7 @@ public class MovingElements extends GameElements{
         super(x, y, width, height, img);
     }
 
-    @Override
+
     public void move() {
 
     }

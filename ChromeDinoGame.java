@@ -37,7 +37,7 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
     int dinosaurHeight;
     int dinosaurStartX;
     int dinosaurStartY;
-    GameElements dinosaur;
+    Dinosaur dinosaur;
 
 
     /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -64,6 +64,7 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
         gameOver = false;
         score = 0;
         gameLoop = new Timer(1000/60, this);
+        gameLoop.setInitialDelay(400);
         gameLoop.start();
 
 
@@ -78,7 +79,7 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
         dinosaurHeight = 94;
         dinosaurStartX = 50;
         dinosaurStartY = boardHeight - dinosaurHeight;
-        dinosaur = new Dinosaur(dinosaurStartX, dinosaurStartY, dinosaurWidth, dinosaurHeight, dinosaurImg);
+        this.dinosaur = new Dinosaur(dinosaurStartX, dinosaurStartY, dinosaurWidth, dinosaurHeight, dinosaurImg);
     }
 
 
@@ -110,6 +111,7 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
      *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     @Override
     public void actionPerformed(ActionEvent e) {
+        dinosaur.move();
         repaint();
     }
 
@@ -121,8 +123,14 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
      *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     @Override
     public void keyPressed(KeyEvent e) {
+        // If space button is pressed --> jump
         if (e.getKeyCode() == KeyEvent.VK_SPACE){
-            System.out.println("JUMP TEST!");
+            dinosaur.jump(dinosaurJumpImg, boardHeight);
+        }
+
+        // If down button is pressed --> duck
+        if(e.getKeyCode() == KeyEvent.VK_DOWN){
+            dinosaur.duck(dinosaurDuckImg, boardHeight);
         }
     }
 
@@ -132,6 +140,11 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
 
 
     @Override
-    public void keyReleased(KeyEvent e) {}
+    public void keyReleased(KeyEvent e) {
+        // If down button is released --> keep running
+        if(e.getKeyCode() == KeyEvent.VK_DOWN){
+            dinosaur.run(dinosaurImg);
+        }
+    }
 
 }
