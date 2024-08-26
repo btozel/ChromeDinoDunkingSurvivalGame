@@ -191,12 +191,38 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
      *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     @Override
     public void actionPerformed(ActionEvent e) {
-        dinosaur.move();
-        for(int i = 0; i < obstaclesArray.size(); i++){
-            MovingElements element = obstaclesArray.get(i);
-            element.move();
-        }
+        move();
         repaint();
+        if(gameOver){
+            placeObstaclesTimer.stop();
+            gameLoop.stop();
+        }
+
+    }
+
+
+    private void move(){
+        dinosaur.move();
+
+        for(int i = 0; i < obstaclesArray.size(); i++){
+            MovingElements obstacle = obstaclesArray.get(i);
+            obstacle.move();
+            if(collision(dinosaur, obstacle)){
+                dinosaur.img = dinosaurDeadImg;
+                gameOver = true;
+            }
+        }
+
+    }
+
+    private boolean collision(GameElements dinosaur, GameElements obstacle){
+        /* If we think of the dinosaur and the obstacles as being inside an imaginary rectangle,
+        whether these rectangles touch each other or not gives information about whether a collision occurred. */
+
+        return dinosaur.xPosition < obstacle.xPosition + obstacle.width &&
+                dinosaur.xPosition + dinosaurWidth > obstacle.xPosition &&
+                dinosaur.yPosition < obstacle.yPosition + obstacle.height &&
+                dinosaur.yPosition + dinosaurHeight > obstacle.yPosition;
     }
 
 
