@@ -38,6 +38,7 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
 
     Image player1;
     Image player2;
+    Image flyingPlayer;
 
 
 
@@ -66,10 +67,10 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
     int playerWidth;
     int playerStartX;
     int playerStartY;
-
-
-
-
+    int flyingPlayerHeight;
+    int flyingPlayerWidth;
+    int flyingPlayerStartX;
+    int flyingPlayerStartY;
 
 
     /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -116,6 +117,7 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
         // --------------------- Basketball Player  ---------------------
         player1 = new ImageIcon(getClass().getResource("img/player_1.png")).getImage();
         player2 = new ImageIcon(getClass().getResource("img/player_2.png")).getImage();
+        flyingPlayer = new ImageIcon(getClass().getResource("img/flying_player.png")).getImage();
         // -----------------------------------------------------------------------------------------------------------
 
 
@@ -151,6 +153,10 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
         playerWidth = 40;
         playerStartX = 700;
         playerStartY = boardHeight - playerHeight;
+        flyingPlayerHeight = 68;
+        flyingPlayerWidth = 97;
+        flyingPlayerStartX = 700;
+        flyingPlayerStartY = boardHeight - flyingPlayerHeight - 70;
         // -----------------------------------------------------------------------------------------------------------
 
 
@@ -161,9 +167,15 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
 
         double placeObstacleChance = Math.random();     // 0 - 0.999..
 
+        // 15% change to get randomly cactus3
+        if(placeObstacleChance > .70){
+            MovingElements player = new MovingElements(flyingPlayerStartX, flyingPlayerStartY, flyingPlayerWidth, flyingPlayerHeight, flyingPlayer);
+            obstaclesArray.add(player);
+        }
+
         // 10% change to get randomly player
-        if(placeObstacleChance > .90){
-            if(placeObstacleChance > .95){
+        else if(placeObstacleChance > .65){
+            if(placeObstacleChance > .52){
                 MovingElements player = new MovingElements(playerStartX, playerStartY, playerWidth, playerHeight, player1);
                 obstaclesArray.add(player);
             }else{
@@ -172,18 +184,18 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
             }
         }
 
-        // 10% change to get randomly cactus3
-        else if(placeObstacleChance > .80){
+        // 15% change to get randomly cactus3
+        else if(placeObstacleChance > .50){
             MovingElements cactus = new MovingElements(cactusStartX, cactusStartY, cactus3Width, cactusHeight, cactus3);
             obstaclesArray.add(cactus);
         }
         // 20% change to get randomly cactus2
-        else if(placeObstacleChance > .60){
+        else if(placeObstacleChance > .30){
             MovingElements cactus = new MovingElements(cactusStartX, cactusStartY, cactus2Width, cactusHeight, cactus2);
             obstaclesArray.add(cactus);
         }
         // 30% change to get randomly cactus1
-        else if(placeObstacleChance > .30) {
+        else if(placeObstacleChance > 0) {
             MovingElements cactus = new MovingElements(cactusStartX, cactusStartY, cactus1Width, cactusHeight, cactus1);
             obstaclesArray.add(cactus);
         }
