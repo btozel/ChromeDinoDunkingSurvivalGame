@@ -41,5 +41,5 @@ public class DinoGameApp {
 
         // Set game window visible
         gameWindow.setVisible(true);
-    }
+    }                   
 }

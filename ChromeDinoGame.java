@@ -20,6 +20,7 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
 
     // Variable to track whether the game is over
     boolean gameOver;
+    boolean gameStarted;
 
     // Variable that will keep score
     int score;
@@ -117,11 +118,12 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
 
         // Initializing game logic elements
         gameOver = false;
+        gameStarted = false;
         score = 0;
         gameLoop = new Timer(1000/60, this);
         gameLoop.setInitialDelay(400);
         // Start gameLoop for the game
-        gameLoop.start();
+        //gameLoop.start();
 
 
         // ------------------------------------ Game Images -----------------------------------------------------------
@@ -167,7 +169,7 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
                 placeObstacles();
             }
         });
-        placeObstaclesTimer.start();
+        //placeObstaclesTimer.start();
 
         // --------------------- Cactus ---------------------
         cactus1Width = 34;
@@ -285,8 +287,12 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
         // Score and end of the game
         g.setColor(Color.white);
         g.setFont(new Font("Courier", Font.PLAIN, 32));
+        if(!gameStarted){
+            g.drawString("PRESS ENTER TO START!", boardWidth/4, boardHeight/2);
+        }
         if(gameOver) {
             g.drawString("Game Over: " + score, boardWidth/3, boardHeight/3);
+            g.drawString("PRESS ENTER TO RESTART!", boardWidth/4, boardHeight/2);
         }else{
             g.drawString(String.valueOf(score), 10, 35);
         }
@@ -328,7 +334,11 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
                 obstacle.move(10);
             }
             if(collision(dinosaur, obstacle)){
+                if(dinosaur.img == dinosaurDuckImg){
+                    dinosaur.yPosition = dinosaurStartY;
+                }
                 dinosaur.img = dinosaurDeadImg;
+                dinosaur.height = dinosaur.img.getHeight(null);
                 gameOver = true;
             }
         }
@@ -363,6 +373,14 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
         if(e.getKeyCode() == KeyEvent.VK_DOWN){
             dinosaur.duck(dinosaurDuckImg, boardHeight);
         }
+
+        if(e.getKeyCode() == KeyEvent.VK_ENTER){
+            if(gameOver){
+                restart();
+            }else{
+                start();
+            }
+        }
     }
 
 
@@ -376,6 +394,24 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
         if(e.getKeyCode() == KeyEvent.VK_DOWN){
             dinosaur.run(dinosaurImg);
         }
+    }
+
+
+    private void restart(){
+        dinosaur.yPosition = dinosaurStartY;
+        dinosaur.dinoJumpingVelocity = 17;
+        dinosaur.img = dinosaurImg;
+        obstaclesArray.clear();
+        score = 0;
+        gameOver = false;
+        gameLoop.start();
+        placeObstaclesTimer.start();
+    }
+
+    private void start(){
+        gameLoop.start();
+        placeObstaclesTimer.start();
+        gameStarted = true;
     }
 
 }
