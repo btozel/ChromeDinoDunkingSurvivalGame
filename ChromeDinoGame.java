@@ -42,6 +42,8 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
 
     Image bird;
 
+    Image bg;
+
 
 
     // Dinosaur
@@ -79,6 +81,16 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
     int birdWidth;
     int birdStartX;
     int birdStartY;
+
+    // Background
+    int bgWidth;
+    int bgHeight;
+    int bg1StartX;
+    int bg2StartX;
+    int bgStartY;
+    int bgVelocity;
+    MovingElements background1;
+    MovingElements background2;
 
 
 
@@ -130,11 +142,15 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
 
         // --------------------- Bird  ---------------------
         bird = new ImageIcon(getClass().getResource("img/bird.gif")).getImage();
+
+        // --------------------- Background  ---------------------
+        bg = new ImageIcon(getClass().getResource("img/bg.png")).getImage();
+
         // -----------------------------------------------------------------------------------------------------------
 
 
-        // ----------------------------------------- Game Objects ----------------------------------------------------
 
+        // ----------------------------------------- Game Objects ----------------------------------------------------
         // --------------------- Dinosaur ---------------------
         dinosaurWidth = 88;
         dinosaurHeight = 94;
@@ -175,6 +191,16 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
         birdHeight = 68;
         birdStartX = 700;
         birdStartY = boardHeight - birdHeight - 70;
+
+        // --------------------- Background  ---------------------
+        bgWidth = 750;
+        bgHeight = 350;
+        bg1StartX = 0;
+        bg2StartX = boardWidth;
+        bgStartY = 0;
+        bgVelocity = 5;
+        background1 = new MovingElements(bg1StartX, bgStartY, bgWidth, bgHeight, bg);
+        background2 = new MovingElements(bg2StartX, bgStartY, bgWidth, bgHeight, bg);
         // -----------------------------------------------------------------------------------------------------------
 
 
@@ -243,6 +269,8 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
      * @author      Batuhan Ozel
      *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     public void draw(Graphics g){
+        background1.draw(g);
+        background2.draw(g);
         dinosaur.draw(g);
         for(int i = 0; i < obstaclesArray.size(); i++){
             obstaclesArray.get(i).draw(g);
@@ -263,12 +291,19 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
             placeObstaclesTimer.stop();
             gameLoop.stop();
         }
-
     }
 
 
     private void move(){
         dinosaur.move();
+        if(background1.xPosition == 0 - boardWidth){
+            background1.xPosition = boardWidth;
+        }
+        if(background2.xPosition == 0 - boardWidth){
+            background2.xPosition = boardWidth;
+        }
+        background1.move(5);
+        background2.move(5);
 
         for(int i = 0; i < obstaclesArray.size(); i++){
             MovingElements obstacle = obstaclesArray.get(i);
