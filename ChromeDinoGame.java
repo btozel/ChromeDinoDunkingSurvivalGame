@@ -40,6 +40,8 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
     Image player2;
     Image flyingPlayer;
 
+    Image bird;
+
 
 
     // Dinosaur
@@ -71,6 +73,13 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
     int flyingPlayerWidth;
     int flyingPlayerStartX;
     int flyingPlayerStartY;
+
+    // Bird
+    int birdHeight;
+    int birdWidth;
+    int birdStartX;
+    int birdStartY;
+
 
 
     /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -118,6 +127,9 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
         player1 = new ImageIcon(getClass().getResource("img/player_1.png")).getImage();
         player2 = new ImageIcon(getClass().getResource("img/player_2.png")).getImage();
         flyingPlayer = new ImageIcon(getClass().getResource("img/flying_player.png")).getImage();
+
+        // --------------------- Bird  ---------------------
+        bird = new ImageIcon(getClass().getResource("img/bird.gif")).getImage();
         // -----------------------------------------------------------------------------------------------------------
 
 
@@ -141,22 +153,28 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
         placeObstaclesTimer.start();
 
         // --------------------- Cactus ---------------------
-        cactusHeight = 70;
         cactus1Width = 34;
         cactus2Width = 69;
         cactus3Width = 102;
+        cactusHeight = 70;
         cactusStartX = 700;
         cactusStartY = boardHeight - cactusHeight;
 
         // --------------------- Basketball Player  ---------------------
-        playerHeight = 100;
         playerWidth = 40;
+        playerHeight = 100;
         playerStartX = 700;
         playerStartY = boardHeight - playerHeight;
-        flyingPlayerHeight = 68;
         flyingPlayerWidth = 97;
+        flyingPlayerHeight = 68;
         flyingPlayerStartX = 700;
         flyingPlayerStartY = boardHeight - flyingPlayerHeight - 70;
+
+        // --------------------- Bird  ---------------------
+        birdWidth = 97;
+        birdHeight = 68;
+        birdStartX = 700;
+        birdStartY = boardHeight - birdHeight - 70;
         // -----------------------------------------------------------------------------------------------------------
 
 
@@ -167,21 +185,28 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
 
         double placeObstacleChance = Math.random();     // 0 - 0.999..
 
-        // 15% change to get randomly cactus3
-        if(placeObstacleChance > .70){
+        // 5% change to get randomly flyingBird
+        if(placeObstacleChance > .95){
+            MovingElements flyingBird = new MovingElements(birdStartX, birdStartY, birdWidth, birdHeight, bird);
+            obstaclesArray.add(flyingBird);
+        }
+
+        // 10% change to get randomly flyingPlayer
+        else if(placeObstacleChance > .85){
             MovingElements player = new MovingElements(flyingPlayerStartX, flyingPlayerStartY, flyingPlayerWidth, flyingPlayerHeight, flyingPlayer);
             obstaclesArray.add(player);
         }
 
-        // 10% change to get randomly player
+        // 10% change to get randomly player2
+        else if(placeObstacleChance > .75){
+            MovingElements player = new MovingElements(playerStartX, playerStartY, playerWidth, playerHeight, player2);
+            obstaclesArray.add(player);
+        }
+
+        // 10% change to get randomly player1
         else if(placeObstacleChance > .65){
-            if(placeObstacleChance > .52){
-                MovingElements player = new MovingElements(playerStartX, playerStartY, playerWidth, playerHeight, player1);
-                obstaclesArray.add(player);
-            }else{
-                MovingElements player = new MovingElements(playerStartX, playerStartY, playerWidth, playerHeight, player2);
-                obstaclesArray.add(player);
-            }
+            MovingElements player = new MovingElements(playerStartX, playerStartY, playerWidth, playerHeight, player1);
+            obstaclesArray.add(player);
         }
 
         // 15% change to get randomly cactus3
@@ -199,7 +224,6 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
             MovingElements cactus = new MovingElements(cactusStartX, cactusStartY, cactus1Width, cactusHeight, cactus1);
             obstaclesArray.add(cactus);
         }
-
     }
 
     /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -248,13 +272,16 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
 
         for(int i = 0; i < obstaclesArray.size(); i++){
             MovingElements obstacle = obstaclesArray.get(i);
-            obstacle.move();
+            if(obstacle.img == bird || obstacle.img == flyingPlayer){
+                obstacle.move(15);
+            }else{
+                obstacle.move(10);
+            }
             if(collision(dinosaur, obstacle)){
                 dinosaur.img = dinosaurDeadImg;
                 gameOver = true;
             }
         }
-
     }
 
     private boolean collision(GameElements dinosaur, GameElements obstacle){
