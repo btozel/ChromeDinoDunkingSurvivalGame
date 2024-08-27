@@ -6,11 +6,10 @@ public class MovingElements extends GameElements{
 
     MovingElements(int x, int y, int width, int height, Image img) {
         super(x, y, width, height, img);
-        movingElementVelocity = 10;
     }
 
 
-    public void move() {
+    public void move(int movingElementVelocity) {
         xPosition -= movingElementVelocity;
     }
 }
