@@ -20,8 +20,10 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
 
     // Variable to track whether the game is over
     boolean gameOver;
+
     // Variable that will keep score
     int score;
+
     // The flow rate of the game
     Timer gameLoop;
 
@@ -109,7 +111,6 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
         setBackground(Color.LIGHT_GRAY);
 
         // -------- Game Logic --------
-
         // JPanel will be listening for the key events
         setFocusable(true);
         addKeyListener(this);
@@ -250,6 +251,11 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
             MovingElements cactus = new MovingElements(cactusStartX, cactusStartY, cactus1Width, cactusHeight, cactus1);
             obstaclesArray.add(cactus);
         }
+
+        // Store maximum 10 Obstacles in the Obstacles Array List
+        if(obstaclesArray.size() >= 10){
+            obstaclesArray.remove(0);
+        }
     }
 
     /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -274,6 +280,15 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
         dinosaur.draw(g);
         for(int i = 0; i < obstaclesArray.size(); i++){
             obstaclesArray.get(i).draw(g);
+        }
+
+        // Score and end of the game
+        g.setColor(Color.white);
+        g.setFont(new Font("Courier", Font.PLAIN, 32));
+        if(gameOver) {
+            g.drawString("Game Over: " + score, boardWidth/3, boardHeight/3);
+        }else{
+            g.drawString(String.valueOf(score), 10, 35);
         }
     }
 
@@ -317,6 +332,8 @@ public class ChromeDinoGame extends JPanel implements ActionListener, KeyListene
                 gameOver = true;
             }
         }
+
+        score++;
     }
 
     private boolean collision(GameElements dinosaur, GameElements obstacle){
