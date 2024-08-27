@@ -3,7 +3,7 @@ import java.awt.*;
 public class Dinosaur extends GameElements{
 
     private final int gravity = 1;
-    private int dinoJumpingVelocity = 17;
+    public int dinoJumpingVelocity = 17;
 
     private final int startYPosition;
 
